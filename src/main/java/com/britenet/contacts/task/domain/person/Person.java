@@ -5,17 +5,19 @@ import com.britenet.contacts.task.domain.person.enums.Gender;
 import com.britenet.contacts.task.exceptions.invalidInput.DuplicatedContactException;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
-
 @Data
-@Builder
-public class Person{
+@NoArgsConstructor
+public class Person implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -31,6 +33,16 @@ public class Person{
     String pesel;
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Contact> contacts;
+
+    @Builder
+    public Person(String name, String surname, Gender gender, LocalDate birthDate, String pesel) {
+        this.contacts = new HashSet<>();
+        this.name = name;
+        this.surname = surname;
+        this.gender = gender;
+        this.birthDate = birthDate;
+        this.pesel = pesel;
+    }
 
     public void addContact(Contact contact){
         if(contacts.contains(contact))
