@@ -1,4 +1,4 @@
-package com.britenet.contacts.task.page;
+package com.britenet.contacts.task.DTO.page;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,10 +7,8 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
-public class Page<T> {
+public class PageResDTO<T> {
     private int totalPages;
     private int currentPageNumber;
-    private String sortedBy;
-    private PageOrder orderBy;
     private List<T> content;
 }

@@ -13,7 +13,6 @@ import javax.persistence.*;
 @DiscriminatorValue("address")
 
 @Data
-@Builder
 @EqualsAndHashCode(callSuper = false)
 public class Address extends Contact {
     @Column(length = 40)
@@ -28,6 +27,21 @@ public class Address extends Contact {
     private String flatNumber;
     @Column(length = 6)
     private String blockNumber;
+
+    public Address(){
+        this.kind = "address";
+    }
+
+    @Builder
+    public Address(String town, String zipCode, String street, Province province, String flatNumber, String blockNumber) {
+        this.kind = "address";
+        this.town = town;
+        this.zipCode = zipCode;
+        this.street = street;
+        this.province = province;
+        this.flatNumber = flatNumber;
+        this.blockNumber = blockNumber;
+    }
 
     public String toString(){
         StringBuilder addressStringBuilder =  new StringBuilder(street).append(" ");

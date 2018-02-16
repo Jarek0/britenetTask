@@ -15,9 +15,14 @@ import javax.persistence.Entity;
 @EqualsAndHashCode(callSuper = false)
 public class PhoneNumber extends Contact {
     @Column(length = 9, unique = true, name = "phone_number")
-    public String value;
+    private String value;
+
+    public PhoneNumber(){
+        this.kind = "phone number";
+    }
 
     public PhoneNumber(String value){
+        this.kind = "phone number";
         this.value = value;
     }
 

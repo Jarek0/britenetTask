@@ -15,9 +15,14 @@ import javax.persistence.Entity;
 @EqualsAndHashCode(callSuper = false)
 public class EmailAddress extends Contact {
     @Column(unique = true, name = "email_address")
-    public String value;
+    private String value;
+
+    public EmailAddress(){
+        this.kind = "e-mail address";
+    }
 
     public EmailAddress(String value){
+        this.kind = "e-mail address";
         this.value = value;
     }
 
