@@ -1,9 +1,8 @@
 package com.britenet.contacts.task.validators.person;
 
-import com.britenet.contacts.task.DTO.person.request.PersonReqDTO;
 import com.britenet.contacts.task.DTO.person.request.UpdatePersonReqDTO;
 import com.britenet.contacts.task.domain.person.Person;
-import com.britenet.contacts.task.repository.person.PersonRepository;
+import com.britenet.contacts.task.repositories.person.PersonRepository;
 import com.google.common.base.Preconditions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

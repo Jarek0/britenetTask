@@ -1,11 +1,10 @@
 package com.britenet.contacts.task.services.contact;
 
-import com.britenet.contacts.task.DTO.contact.request.AddressReqDTO;
-import com.britenet.contacts.task.DTO.contact.request.EmailAddressReqDTO;
-import com.britenet.contacts.task.DTO.contact.request.PhoneNumberReqDTO;
+import com.britenet.contacts.task.DTO.contact.request.update.UpdateAddressReqDTO;
+import com.britenet.contacts.task.DTO.contact.request.update.UpdateEmailAddressReqDTO;
+import com.britenet.contacts.task.DTO.contact.request.update.UpdatePhoneNumberReqDTO;
 import com.britenet.contacts.task.DTO.contact.response.ContactWithPersonResDTO;
 import com.britenet.contacts.task.DTO.page.PageResDTO;
-import org.springframework.validation.BindingResult;
 
 import java.util.List;
 
@@ -17,11 +16,11 @@ public interface ContactService {
 
     PageResDTO<ContactWithPersonResDTO> readPageOfContacts(int number, int size, String sortedBy, String order);
 
-    ContactWithPersonResDTO updateContact(long contactId, AddressReqDTO contactReqDTO);
+    ContactWithPersonResDTO updateContact(UpdateAddressReqDTO contactReqDTO);
 
-    ContactWithPersonResDTO updateContact(long contactId, EmailAddressReqDTO contactReqDTO);
+    ContactWithPersonResDTO updateContact(UpdateEmailAddressReqDTO contactReqDTO);
 
-    ContactWithPersonResDTO updateContact(long contactId, PhoneNumberReqDTO contactReqDTO);
+    ContactWithPersonResDTO updateContact(UpdatePhoneNumberReqDTO contactReqDTO);
 
     void deleteContact(long contactId);
 

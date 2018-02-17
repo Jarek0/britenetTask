@@ -1,14 +1,9 @@
 package com.britenet.contacts.task.unit.mappers;
 
-import com.britenet.contacts.task.DTO.contact.response.ContactResDTO;
 import com.britenet.contacts.task.DTO.person.request.PersonReqDTO;
 import com.britenet.contacts.task.DTO.person.response.PersonResDTO;
 import com.britenet.contacts.task.DTO.person.response.PersonWithContactsResDTO;
 import com.britenet.contacts.task.domain.contact.Contact;
-import com.britenet.contacts.task.domain.contact.subClasses.Address;
-import com.britenet.contacts.task.domain.contact.subClasses.EmailAddress;
-import com.britenet.contacts.task.domain.contact.subClasses.PhoneNumber;
-import com.britenet.contacts.task.domain.contact.subClasses.enums.Province;
 import com.britenet.contacts.task.domain.person.Person;
 import com.britenet.contacts.task.domain.person.enums.Gender;
 import com.britenet.contacts.task.mappers.contact.ContactMapper;
@@ -25,6 +20,13 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.britenet.contacts.task.testObjectsFactories.TestAddressFactory.createTestAddress;
+import static com.britenet.contacts.task.testObjectsFactories.TestAddressFactory.createTestAddressResDTO;
+import static com.britenet.contacts.task.testObjectsFactories.TestEmailAddressFactory.createTestEmailAddress;
+import static com.britenet.contacts.task.testObjectsFactories.TestEmailAddressFactory.createTestEmailAddressResDTO;
+import static com.britenet.contacts.task.testObjectsFactories.TestPersonFactory.*;
+import static com.britenet.contacts.task.testObjectsFactories.TestPhoneNumberFactory.createTestPhoneNumber;
+import static com.britenet.contacts.task.testObjectsFactories.TestPhoneNumberFactory.createTestPhoneNumberResDTO;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -50,13 +52,7 @@ public class PersonMapperTest {
     @Test
     public void whenIMapFromReqDTO_IGetPerson(){
         //given
-        PersonReqDTO personReqDTO = PersonReqDTO.builder()
-                .name("Jarek")
-                .surname("Bielec")
-                .gender("male")
-                .birthDate(LocalDate.parse("2016-08-16"))
-                .pesel("99999999999")
-                .build();
+        PersonReqDTO personReqDTO = createJarekReqDTO();
 
         //when
         Person person = personMapper.mapFromReqDTO(personReqDTO);
@@ -74,13 +70,7 @@ public class PersonMapperTest {
     @Test
     public void whenIMapPersonToResDTO_IGetPersonResDTO(){
         //given
-        Person person = Person.builder()
-                .name("Jarek")
-                .surname("Bielec")
-                .gender(Gender.MALE)
-                .birthDate(LocalDate.parse("2016-08-16"))
-                .pesel("99999999999")
-                .build();
+        Person person = createJarek();
         person.setId(1L);
 
         //when
@@ -98,60 +88,26 @@ public class PersonMapperTest {
     @Test
     public void whenIMapPersonToResDTO_IGetPersonResDTOWithContacts(){
         //given
-        Person person = Person.builder()
-                .name("Jarek")
-                .surname("Bielec")
-                .gender(Gender.MALE)
-                .birthDate(LocalDate.parse("2016-08-16"))
-                .pesel("99999999999")
-                .build();
+        Person person = createJarek();
         person.setId(1L);
 
-        Contact address = Address.builder()
-                .town("Lublin")
-                .zipCode("22-420")
-                .street("ul. Tomasza Zana")
-                .province(Province.getByName("małopolskie"))
-                .flatNumber("2")
-                .blockNumber("2a")
-                .build();
+        Contact address = createTestAddress();
         address.setId(1L);
 
-        Contact phoneNumber = new PhoneNumber("999999999");
+        Contact phoneNumber = createTestPhoneNumber();
         phoneNumber.setId(2L);
 
-        Contact emailAddress = new EmailAddress("jery0@o2.pl");
+        Contact emailAddress = createTestEmailAddress();
         emailAddress.setId(3L);
 
-        person.addContact(address);
-        person.addContact(phoneNumber);
-        person.addContact(emailAddress);
+        person.addAllContacts(address,phoneNumber,emailAddress);
 
-        String addressValue = "ul. Tomasza Zana 2a/2 22-420 Lublin woj. małopolskie";
         Mockito.when(contactMapper.mapToResDTO(address))
-                .thenReturn(
-                        ContactResDTO.builder()
-                                .id(1L)
-                                .kind("address")
-                                .value(addressValue)
-                                .build()
-                );
+                .thenReturn(createTestAddressResDTO());
         Mockito.when(contactMapper.mapToResDTO(phoneNumber))
-                .thenReturn(
-                        ContactResDTO.builder()
-                                .id(2L)
-                                .kind("phone number")
-                                .value("999999999")
-                                .build()
-                );
+                .thenReturn(createTestPhoneNumberResDTO());
         Mockito.when(contactMapper.mapToResDTO(emailAddress))
-                .thenReturn(
-                        ContactResDTO.builder()
-                                .id(3L)
-                                .kind("jery0@o2.pl")
-                                .value(addressValue)
-                                .build()
-                );
+                .thenReturn(createTestEmailAddressResDTO());
 
         //when
         PersonWithContactsResDTO personWithContactsResDTO = personMapper.mapToResWithContactsDTO(person);

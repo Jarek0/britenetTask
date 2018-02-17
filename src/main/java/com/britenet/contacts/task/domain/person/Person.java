@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -44,6 +45,10 @@ public class Person implements Serializable{
         this.pesel = pesel;
     }
 
+    public void addAllContacts(Contact... contacts){
+        Arrays.stream(contacts).forEach(this::addContact);
+    }
+
     public void addContact(Contact contact){
         if(contacts.contains(contact))
             throw new DuplicatedContactException(this,contact);
@@ -55,8 +60,7 @@ public class Person implements Serializable{
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Person)) return false;
-        if (!super.equals(o)) return false;
+        if(o == null || getClass() != o.getClass()) return false;
         Person person = (Person) o;
         return Objects.equals(getPesel(), person.getPesel());
     }

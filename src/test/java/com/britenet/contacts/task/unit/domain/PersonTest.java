@@ -1,11 +1,7 @@
 package com.britenet.contacts.task.unit.domain;
 
-import com.britenet.contacts.task.domain.contact.subClasses.Address;
-import com.britenet.contacts.task.domain.contact.subClasses.EmailAddress;
-import com.britenet.contacts.task.domain.contact.subClasses.PhoneNumber;
-import com.britenet.contacts.task.domain.contact.subClasses.enums.Province;
+import com.britenet.contacts.task.domain.contact.Contact;
 import com.britenet.contacts.task.domain.person.Person;
-import com.britenet.contacts.task.domain.person.enums.Gender;
 import com.britenet.contacts.task.exceptions.invalidInput.DuplicatedContactException;
 import org.junit.Rule;
 import org.junit.Test;
@@ -14,10 +10,12 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.HashSet;
 
+import static com.britenet.contacts.task.testObjectsFactories.TestAddressFactory.createTestAddress;
+import static com.britenet.contacts.task.testObjectsFactories.TestEmailAddressFactory.createTestEmailAddress;
+import static com.britenet.contacts.task.testObjectsFactories.TestPersonFactory.*;
+import static com.britenet.contacts.task.testObjectsFactories.TestPhoneNumberFactory.createTestPhoneNumber;
 import static junit.framework.TestCase.assertTrue;
 
 @RunWith(SpringRunner.class)
@@ -32,35 +30,15 @@ public class PersonTest {
         //then
         expectedException.expect(DuplicatedContactException.class);
         String expectedExceptionMessage =
-                "Person with pesel: 99999999999 already have address: ul. Tomasza Zana 2a/2 22-420 Lublin woj. małopolskie";
+                "Person with pesel: 99999999998 already have address: ul. Tomasza Zana 2a/2 22-420 Lublin woj. małopolskie";
         expectedException.expectMessage(expectedExceptionMessage);
 
         //given
-        Person person = Person.builder()
-                .name("adam")
-                .surname("kowalski")
-                .gender(Gender.MALE)
-                .birthDate(LocalDate.now())
-                .pesel("99999999999")
-                .build();
+        Person person = createAdam();
 
-        Address address = Address.builder()
-                .town("Lublin")
-                .zipCode("22-420")
-                .street("ul. Tomasza Zana")
-                .province(Province.getByName("małopolskie"))
-                .flatNumber("2")
-                .blockNumber("2a")
-                .build();
+        Contact address = createTestAddress();
 
-        Address addressDuplication = Address.builder()
-                .town("Lublin")
-                .zipCode("22-420")
-                .street("ul. Tomasza Zana")
-                .province(Province.getByName("małopolskie"))
-                .flatNumber("2")
-                .blockNumber("2a")
-                .build();
+        Contact addressDuplication = createTestAddress();
 
         //when
         person.addContact(address);
@@ -70,26 +48,13 @@ public class PersonTest {
     @Test
     public void whenAddSomeContacts_thenPersonHasThey(){
         //given
-        Person person = Person.builder()
-                .name("adam")
-                .surname("kowalski")
-                .gender(Gender.MALE)
-                .birthDate(LocalDate.now())
-                .pesel("99999999999")
-                .build();
+        Person person = createAdam();
 
-        Address address = Address.builder()
-                .town("Lublin")
-                .zipCode("22-420")
-                .street("ul. Tomasza Zana")
-                .province(Province.getByName("małopolskie"))
-                .flatNumber("2")
-                .blockNumber("2a")
-                .build();
+        Contact address = createTestAddress();
 
-        EmailAddress emailAddress = new EmailAddress("jery0@o2.pl");
+        Contact emailAddress = createTestEmailAddress();
 
-        PhoneNumber phoneNumber = new PhoneNumber("999999999");
+        Contact phoneNumber = createTestPhoneNumber();
 
         //when
         person.addContact(address);

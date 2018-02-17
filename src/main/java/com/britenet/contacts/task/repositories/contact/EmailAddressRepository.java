@@ -1,4 +1,4 @@
-package com.britenet.contacts.task.repository.contact;
+package com.britenet.contacts.task.repositories.contact;
 
 import com.britenet.contacts.task.domain.contact.subClasses.EmailAddress;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,8 +1,8 @@
 package com.britenet.contacts.task.services.person;
 
-import com.britenet.contacts.task.DTO.contact.request.AddressReqDTO;
-import com.britenet.contacts.task.DTO.contact.request.EmailAddressReqDTO;
-import com.britenet.contacts.task.DTO.contact.request.PhoneNumberReqDTO;
+import com.britenet.contacts.task.DTO.contact.request.create.AddressReqDTO;
+import com.britenet.contacts.task.DTO.contact.request.create.EmailAddressReqDTO;
+import com.britenet.contacts.task.DTO.contact.request.create.PhoneNumberReqDTO;
 import com.britenet.contacts.task.DTO.page.PageResDTO;
 import com.britenet.contacts.task.DTO.person.request.PersonReqDTO;
 import com.britenet.contacts.task.DTO.person.request.UpdatePersonReqDTO;
@@ -15,7 +15,7 @@ import com.britenet.contacts.task.exceptions.notFound.ObjectNotFoundException;
 import com.britenet.contacts.task.mappers.contact.ContactMapper;
 import com.britenet.contacts.task.mappers.page.PageMapper;
 import com.britenet.contacts.task.mappers.person.PersonMapper;
-import com.britenet.contacts.task.repository.person.PersonRepository;
+import com.britenet.contacts.task.repositories.person.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,6 +23,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service

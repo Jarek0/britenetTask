@@ -1,4 +1,4 @@
-package com.britenet.contacts.task.DTO.contact.request;
+package com.britenet.contacts.task.DTO.contact.request.create;
 
 import com.britenet.contacts.task.validators.contact.FlatNumberValidation;
 import org.hibernate.validator.constraints.NotBlank;
@@ -8,10 +8,8 @@ import lombok.Data;
 import javax.validation.constraints.Pattern;
 
 @Data
-@Builder
-
 @FlatNumberValidation({"blockNumber","flatNumber"})
-public class AddressReqDTO implements ContactReqDTO{
+public class AddressReqDTO {
 
     @NotBlank
     @Pattern(regexp = "^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]{1,39}$", message = "validation.address.town.pattern")
@@ -36,4 +34,14 @@ public class AddressReqDTO implements ContactReqDTO{
 
     @Pattern(regexp = "^\\d{5}[a-z]{1}$",message = "validation.address.blockNumber.pattern")
     private String blockNumber;
+
+    @Builder
+    public AddressReqDTO(String town, String zipCode, String street, String province, String flatNumber, String blockNumber) {
+        this.town = town;
+        this.zipCode = zipCode;
+        this.street = street;
+        this.province = province;
+        this.flatNumber = flatNumber;
+        this.blockNumber = blockNumber;
+    }
 }

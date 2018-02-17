@@ -1,4 +1,4 @@
-package com.britenet.contacts.task.DTO.contact.request;
+package com.britenet.contacts.task.DTO.contact.request.create;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,7 +8,7 @@ import javax.validation.constraints.Pattern;
 
 @Data
 @AllArgsConstructor
-public class PhoneNumberReqDTO implements ContactReqDTO{
+public class PhoneNumberReqDTO {
     @NotBlank
     @Pattern(regexp ="^[0-9]{9}$",message = "validation.phoneNumber.value.pattern")
     private String value;

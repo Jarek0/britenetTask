@@ -1,4 +1,4 @@
-package com.britenet.contacts.task.DTO.contact.request;
+package com.britenet.contacts.task.DTO.contact.request.create;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,7 +8,7 @@ import javax.validation.constraints.Pattern;
 
 @Data
 @AllArgsConstructor
-public class EmailAddressReqDTO implements ContactReqDTO{
+public class EmailAddressReqDTO {
     @NotBlank
     @Pattern(
             regexp = "(^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.+[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@+(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$)",

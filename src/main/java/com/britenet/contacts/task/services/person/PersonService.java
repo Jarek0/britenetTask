@@ -1,14 +1,13 @@
 package com.britenet.contacts.task.services.person;
 
-import com.britenet.contacts.task.DTO.contact.request.AddressReqDTO;
-import com.britenet.contacts.task.DTO.contact.request.EmailAddressReqDTO;
-import com.britenet.contacts.task.DTO.contact.request.PhoneNumberReqDTO;
+import com.britenet.contacts.task.DTO.contact.request.create.AddressReqDTO;
+import com.britenet.contacts.task.DTO.contact.request.create.EmailAddressReqDTO;
+import com.britenet.contacts.task.DTO.contact.request.create.PhoneNumberReqDTO;
 import com.britenet.contacts.task.DTO.page.PageResDTO;
 import com.britenet.contacts.task.DTO.person.request.PersonReqDTO;
 import com.britenet.contacts.task.DTO.person.request.UpdatePersonReqDTO;
 import com.britenet.contacts.task.DTO.person.response.PersonResDTO;
 import com.britenet.contacts.task.DTO.person.response.PersonWithContactsResDTO;
-import org.springframework.validation.BindingResult;
 
 import java.util.List;
 

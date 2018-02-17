@@ -1,7 +1,7 @@
 package com.britenet.contacts.task.validators.contact;
 
-import com.britenet.contacts.task.DTO.contact.request.PhoneNumberReqDTO;
-import com.britenet.contacts.task.repository.contact.PhoneNumberRepository;
+import com.britenet.contacts.task.DTO.contact.request.create.PhoneNumberReqDTO;
+import com.britenet.contacts.task.repositories.contact.PhoneNumberRepository;
 import com.google.common.base.Preconditions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
