@@ -1,6 +1,7 @@
 package com.britenet.contacts.task.testObjectsFactories;
 
 import com.britenet.contacts.task.DTO.person.request.PersonReqDTO;
+import com.britenet.contacts.task.DTO.person.response.PersonResDTO;
 import com.britenet.contacts.task.domain.contact.Contact;
 import com.britenet.contacts.task.domain.contact.subClasses.Address;
 import com.britenet.contacts.task.domain.contact.subClasses.EmailAddress;
@@ -23,12 +24,43 @@ public class TestPersonFactory {
                 .build();
     }
 
+    public static PersonReqDTO createJarekReqDTO(){
+        return PersonReqDTO.builder()
+                .name("Jarek")
+                .surname("Bielec")
+                .gender("male")
+                .birthDate(LocalDate.parse("2016-08-16"))
+                .pesel("99999999999")
+                .build();
+    }
+
+    public static PersonResDTO createJarekResDTO(){
+        return PersonResDTO.builder()
+                .id(1L)
+                .name("Jarek")
+                .surname("Bielec")
+                .gender("male")
+                .birthDate("2016-08-16")
+                .pesel("99999999999")
+                .build();
+    }
+
     public static Person createAdam(){
         return Person.builder()
                 .name("Adam")
                 .surname("Kowalski")
                 .gender(Gender.MALE)
                 .birthDate(LocalDate.parse("2016-08-16"))
+                .pesel("99999999998")
+                .build();
+    }
+
+    public static PersonResDTO createAdamResDTO(){
+        return PersonResDTO.builder()
+                .name("Adam")
+                .surname("Kowalski")
+                .gender("male")
+                .birthDate("2016-08-16")
                 .pesel("99999999998")
                 .build();
     }
@@ -43,13 +75,13 @@ public class TestPersonFactory {
                 .build();
     }
 
-    public static PersonReqDTO createJarekReqDTO(){
-        return PersonReqDTO.builder()
-                .name("Jarek")
-                .surname("Bielec")
+    public static PersonResDTO createAdrianResDTO(){
+        return PersonResDTO.builder()
+                .name("Adrian")
+                .surname("Nowak")
                 .gender("male")
-                .birthDate(LocalDate.parse("2016-08-16"))
-                .pesel("99999999999")
+                .birthDate("2015-08-16")
+                .pesel("99999999997")
                 .build();
     }
 

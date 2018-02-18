@@ -67,6 +67,6 @@ public class Person implements Serializable{
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), getPesel());
+        return Objects.hash(getPesel());
     }
 }

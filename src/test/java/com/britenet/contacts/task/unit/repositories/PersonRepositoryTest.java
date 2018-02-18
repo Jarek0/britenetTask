@@ -51,7 +51,7 @@ public class PersonRepositoryTest {
     }
 
     @Test
-    public void whenISavePerson_ThenIFindItById(){
+    public void whenISavePerson_thenIFindItById(){
         //given
         Person jarek = createJarek();
 
@@ -68,7 +68,7 @@ public class PersonRepositoryTest {
     }
 
     @Test
-    public void whenISavePerson_ThenIFindItByPesel(){
+    public void whenISavePerson_thenIFindItByPesel(){
         //given
         Person jarek = createJarek();
 
@@ -84,7 +84,7 @@ public class PersonRepositoryTest {
     }
 
     @Test
-    public void whenISavePersonWithContacts_ThenIFindItByIdWithContacts(){
+    public void whenISavePersonWithContacts_thenIFindItByIdWithContacts(){
         //given
         Person jarek = createJarek();
 
@@ -113,7 +113,7 @@ public class PersonRepositoryTest {
     }
 
     @Test
-    public void whenISavePersonWithContacts_ThenIFindItByPeselWithContacts(){
+    public void whenISavePersonWithContacts_thenIFindItByPeselWithContacts(){
         //given
         Person jarek = createJarek();
 
@@ -142,7 +142,7 @@ public class PersonRepositoryTest {
     }
 
     @Test
-    public void whenISaveSomePersonsWithContacts_ThenIFindAllThisPersonsWithTheirContacts(){
+    public void whenISaveSomePersonsWithContacts_thenIFindAllThisPersonsWithTheirContacts(){
         //given
         Person jarek = createJarek();
 
@@ -193,7 +193,7 @@ public class PersonRepositoryTest {
     }
 
     @Test
-    public void whenISaveSomePersonsWithContacts_ThenIFindPageOfPersonsWithTheirContacts(){
+    public void whenISaveSomePersonsWithContacts_thenIFindPageOfPersonsWithTheirContacts(){
         //given
         for(int i=0;i<11;i++){
             personRepository.save(createNextPersonWithContacts(i));

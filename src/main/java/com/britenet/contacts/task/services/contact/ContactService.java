@@ -10,9 +10,9 @@ import java.util.List;
 
 public interface ContactService {
 
-    List<ContactWithPersonResDTO> readAllContacts();
-
     ContactWithPersonResDTO readContact(long contactId);
+
+    List<ContactWithPersonResDTO> readAllContacts();
 
     PageResDTO<ContactWithPersonResDTO> readPageOfContacts(int number, int size, String sortedBy, String order);
 

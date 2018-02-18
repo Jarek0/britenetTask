@@ -176,6 +176,8 @@ public class PersonServiceImpl implements PersonService{
                 .orElseThrow(() -> new ObjectNotFoundException(Person.class));
         person.addContact(contactToAdd);
 
+        personRepository.save(person);
+
         return personMapper.mapToResWithContactsDTO(person);
     }
 }

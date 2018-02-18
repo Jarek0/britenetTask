@@ -53,7 +53,7 @@ public class ContactRepositoryTest {
     }
 
     @Test
-    public void whenISaveContactWithPerson_ThenIFindThisContactWithThisPerson(){
+    public void whenISaveContactWithPerson_thenIFindThisContactWithThisPerson(){
         //given
         Person jarek = createJarek();
 
@@ -76,7 +76,7 @@ public class ContactRepositoryTest {
     }
 
     @Test
-    public void whenISaveSomeContactsWithPersons_ThenIFindAllThisContactsWithTheirPersons(){
+    public void whenISaveSomeContactsWithPersons_thenIFindAllThisContactsWithTheirPersons(){
         //given
         Person jarek = createJarek();
         Contact jarekAddress = createTestAddress();
@@ -120,7 +120,8 @@ public class ContactRepositoryTest {
     }
 
     @Test
-    public void whenISaveSomeContactsWithPersons_ThenIFindPageOfContactsWithThisPersons(){
+    public void whenISaveSomeContactsWithPersons_thenIFindPageOfContactsWithThisPersons(){
+        //given
         for(int i=0; i<3; i++){
             personRepository.save(personRepository.save(createNextPersonWithContacts(i)));
         }

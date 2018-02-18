@@ -21,7 +21,6 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -34,7 +33,10 @@ import static com.britenet.contacts.task.testObjectsFactories.TestPersonFactory.
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 @SpringBootTest
@@ -130,17 +132,7 @@ public class ContactMapperTest {
 
         person.addContact(address);
 
-        Mockito.when(personMapper.mapToResDTO(person))
-                .thenReturn(
-                        PersonResDTO.builder()
-                        .id(1)
-                        .name("Jarek")
-                        .surname("Bielec")
-                        .gender("male")
-                        .birthDate("2016-08-16")
-                        .pesel("99999999999")
-                        .build()
-                );
+        when(personMapper.mapToResDTO(person)).thenReturn(any(PersonResDTO.class));
 
         //when
         ContactWithPersonResDTO contactWithPersonResDTO = contactMapper.mapToResWithPerson(address);
@@ -152,7 +144,7 @@ public class ContactMapperTest {
         assertEquals(expectedValue,contactWithPersonResDTO.getValue());
 
         int countOfMappedPersons = 1;
-        Mockito.verify(personMapper,times(countOfMappedPersons)).mapToResDTO(captor.capture());
+        verify(personMapper,times(countOfMappedPersons)).mapToResDTO(captor.capture());
         List<Person> capturedPersons = captor.getAllValues();
         assertEquals(1,capturedPersons.size());
         assertTrue(capturedPersons.containsAll(Collections.singletonList(person)));

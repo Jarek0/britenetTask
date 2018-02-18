@@ -51,18 +51,18 @@ public class ContactServiceImpl implements ContactService{
     }
 
     @Override
-    public List<ContactWithPersonResDTO> readAllContacts() {
-        List<Contact> contacts = contactRepository.findAllWithPersons();
-
-        return contacts.stream().map(contactMapper::mapToResWithPerson).collect(Collectors.toList());
-    }
-
-    @Override
     public ContactWithPersonResDTO readContact(long contactId) {
         Contact foundContact = contactRepository.findByIdWithPerson(contactId)
                 .orElseThrow(() -> new ObjectNotFoundException(Contact.class));
 
         return contactMapper.mapToResWithPerson(foundContact);
+    }
+
+    @Override
+    public List<ContactWithPersonResDTO> readAllContacts() {
+        List<Contact> contacts = contactRepository.findAllWithPersons();
+
+        return contacts.stream().map(contactMapper::mapToResWithPerson).collect(Collectors.toList());
     }
 
     @Override
@@ -86,6 +86,8 @@ public class ContactServiceImpl implements ContactService{
         contactToUpdate.setFlatNumber(contactReqDTO.getFlatNumber());
         contactToUpdate.setBlockNumber(contactReqDTO.getBlockNumber());
 
+        addressRepository.save(contactToUpdate);
+
         return contactMapper.mapToResWithPerson(contactToUpdate);
     }
 
@@ -97,6 +99,8 @@ public class ContactServiceImpl implements ContactService{
 
         contactToUpdate.setValue(contactReqDTO.getValue());
 
+        emailAddressRepository.save(contactToUpdate);
+
         return contactMapper.mapToResWithPerson(contactToUpdate);
     }
 
@@ -107,6 +111,8 @@ public class ContactServiceImpl implements ContactService{
                 .orElseThrow(() -> new ObjectNotFoundException(PhoneNumber.class));
 
         contactToUpdate.setValue(contactReqDTO.getValue());
+
+        phoneNumberRepository.save(contactToUpdate);
 
         return contactMapper.mapToResWithPerson(contactToUpdate);
     }
