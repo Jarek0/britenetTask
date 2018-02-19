@@ -21,7 +21,7 @@ public class PersonReqDTOValidatorImpl implements Validator{
 
     @Override
     public boolean supports(Class<?> aClass) {
-        return PersonReqDTO.class.equals(aClass);
+        return PersonReqDTO.class.isAssignableFrom(aClass);
     }
 
     @Override
@@ -29,10 +29,10 @@ public class PersonReqDTOValidatorImpl implements Validator{
         Preconditions.checkNotNull(o);
         PersonReqDTO personReqDTO = (PersonReqDTO) o;
 
-        boolean personWithThisPeselExist = personRepository.findByPesel(personReqDTO.getPesel()).orElse(null) != null;
+        boolean peselAlreadyExist = personRepository.findByPesel(personReqDTO.getPesel()).orElse(null) != null;
 
-        if(personWithThisPeselExist){
-            errors.rejectValue("pesel","","validation.phoneNumber.value.exist");
+        if(peselAlreadyExist){
+            errors.rejectValue("","","Person with this pesel already exist");
         }
 
     }

@@ -17,14 +17,14 @@ import java.util.Optional;
 @Repository
 public interface ContactRepository extends JpaRepository<Contact,Long> {
 
-    @Query("select distinct c from Contact c join fetch c.person where c.id = :id")
+    @Query("select distinct c from Contact c left join fetch c.person where c.id = :id")
     Optional<Contact> findByIdWithPerson(@Param("id") long id);
 
-    @Query("select distinct c from Contact c join fetch c.person")
+    @Query("select distinct c from Contact c left join fetch c.person")
     List<Contact> findAllWithPersons();
 
     @Query(
-            value = "select distinct c from Contact c join fetch c.person",
+            value = "select distinct c from Contact c left join fetch c.person",
             countQuery = "select distinct count(c) from Contact c inner join c.person"
     )
     Page<Contact> findPageWithPersons(Pageable pageable);

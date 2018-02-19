@@ -1,6 +1,7 @@
 package com.britenet.contacts.task.validators.contact;
 
-import com.britenet.contacts.task.DTO.contact.request.create.EmailAddressReqDTO;
+import com.britenet.contacts.task.DTO.contact.request.update.UpdateEmailAddressReqDTO;
+import com.britenet.contacts.task.domain.contact.subClasses.EmailAddress;
 import com.britenet.contacts.task.repositories.contact.EmailAddressRepository;
 import com.google.common.base.Preconditions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,28 +10,28 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 @Component
-public class EmailAddressValidator implements Validator {
+public class UpdateEmailAddressValidator implements Validator {
 
     private final EmailAddressRepository emailAddressRepository;
 
     @Autowired
-    public EmailAddressValidator(EmailAddressRepository emailAddressRepository) {
+    public UpdateEmailAddressValidator(EmailAddressRepository emailAddressRepository) {
         this.emailAddressRepository = emailAddressRepository;
     }
 
     @Override
     public boolean supports(Class<?> aClass) {
-        return EmailAddressReqDTO.class.isAssignableFrom(aClass);
+        return UpdateEmailAddressReqDTO.class.isAssignableFrom(aClass);
     }
 
     @Override
     public void validate(Object o, Errors errors) {
         Preconditions.checkNotNull(o);
-        EmailAddressReqDTO emailAddressReqDTO = (EmailAddressReqDTO) o;
+        UpdateEmailAddressReqDTO emailAddressReqDTO = (UpdateEmailAddressReqDTO) o;
 
-        boolean emailAlreadyExist = emailAddressRepository.findByValue(emailAddressReqDTO.getValue()).orElse(null) != null;
+        EmailAddress emailAlreadyExist = emailAddressRepository.findByValue(emailAddressReqDTO.getValue()).orElse(null);
 
-        if(emailAlreadyExist){
+        if(emailAlreadyExist != null && !emailAlreadyExist.getId().equals(emailAddressReqDTO.getId())){
             errors.rejectValue("","","This e-mail address already exist");
         }
 

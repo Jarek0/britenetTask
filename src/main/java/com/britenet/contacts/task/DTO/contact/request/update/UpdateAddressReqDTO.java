@@ -4,8 +4,10 @@ import com.britenet.contacts.task.DTO.contact.request.create.AddressReqDTO;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class UpdateAddressReqDTO extends AddressReqDTO{
     long id;

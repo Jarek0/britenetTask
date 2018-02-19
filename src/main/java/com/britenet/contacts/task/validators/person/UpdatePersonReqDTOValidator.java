@@ -21,7 +21,7 @@ public class UpdatePersonReqDTOValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> aClass) {
-        return UpdatePersonReqDTO.class.equals(aClass);
+        return UpdatePersonReqDTO.class.isAssignableFrom(aClass);
     }
 
     @Override
@@ -29,10 +29,10 @@ public class UpdatePersonReqDTOValidator implements Validator {
         Preconditions.checkNotNull(o);
         UpdatePersonReqDTO personReqDTO = (UpdatePersonReqDTO) o;
 
-        Person personWithThisPesel = personRepository.findByPesel(personReqDTO.getPesel()).orElse(null);
+        Person peselAlreadyExist = personRepository.findByPesel(personReqDTO.getPesel()).orElse(null);
 
-        if(personWithThisPesel!=null && !personWithThisPesel.getId().equals(personReqDTO.getId())){
-            errors.rejectValue("pesel","","validation.person.pesel.exist");
+        if(peselAlreadyExist !=null && !peselAlreadyExist.getId().equals(personReqDTO.getId())){
+            errors.rejectValue("","","Person with this pesel already exist");
         }
     }
 }

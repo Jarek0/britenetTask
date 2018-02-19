@@ -14,7 +14,7 @@ import java.util.Optional;
 @Repository
 public interface AddressRepository extends JpaRepository<Address,Long>{
 
-    @Query("select a from Address a join fetch a.person p where a.id = :id")
+    @Query("select a from Address a left join fetch a.person p where a.id = :id")
     Optional<Address> findAddressByIdWithPerson(@Param("id") long id);
 
 }

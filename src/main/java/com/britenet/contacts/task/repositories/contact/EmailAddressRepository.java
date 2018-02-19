@@ -14,7 +14,7 @@ import java.util.Optional;
 @Repository
 public interface EmailAddressRepository extends JpaRepository<EmailAddress,Long> {
 
-    @Query("select e from EmailAddress e join fetch e.person p where e.id = :id")
+    @Query("select e from EmailAddress e left join fetch e.person p where e.id = :id")
     Optional<EmailAddress> findEmailAddressByIdWithPerson(@Param("id")long id);
 
     Optional<EmailAddress> findByValue(@Param("value") String value);

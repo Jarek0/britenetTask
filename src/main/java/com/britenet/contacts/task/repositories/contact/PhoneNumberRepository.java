@@ -14,7 +14,7 @@ import java.util.Optional;
 @Repository
 public interface PhoneNumberRepository extends JpaRepository<PhoneNumber,Long> {
 
-    @Query("select p from PhoneNumber p join fetch p.person pe where p.id = :id")
+    @Query("select p from PhoneNumber p left join fetch p.person pe where p.id = :id")
     Optional<PhoneNumber> findPhoneNumberByIdWithPerson(@Param("id") long id);
 
     Optional<PhoneNumber> findByValue(@Param("value") String value);

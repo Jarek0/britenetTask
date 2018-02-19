@@ -22,17 +22,17 @@ public interface PersonRepository extends JpaRepository<Person,Long>{
 
     Optional<Person> findByPesel(String pesel);
 
-    @Query("select distinct p from Person p join fetch p.contacts c where p.id = :id")
+    @Query("select distinct p from Person p left join fetch p.contacts c where p.id = :id")
     Optional<Person> findByIdWithContacts(@Param("id") long id);
 
-    @Query("select distinct p from Person p join fetch p.contacts c where p.pesel = :pesel")
+    @Query("select distinct p from Person p left join fetch p.contacts c where p.pesel = :pesel")
     Optional<Person> findByPeselWithContacts(@Param("pesel") String pesel);
 
-    @Query("select distinct p from Person p join fetch p.contacts c")
+    @Query("select distinct p from Person p left join fetch p.contacts c")
     List<Person> findAllWithContacts();
 
     @Query(
-            value = "select distinct p from Person p join fetch p.contacts c",
+            value = "select distinct p from Person p left join fetch p.contacts c",
             countQuery = "select distinct count(p) from Person p inner join p.contacts c"
     )
     Page<Person> findPageWithContacts(Pageable pageable);

@@ -1,5 +1,6 @@
 package com.britenet.contacts.task.validators.contact;
 
+import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 
 import javax.validation.ConstraintValidator;
@@ -7,29 +8,44 @@ import javax.validation.ConstraintValidatorContext;
 import java.util.stream.Stream;
 
 public class FlatNumberValidator implements ConstraintValidator<FlatNumberValidation, Object> {
-    private static final SpelExpressionParser PARSER = new SpelExpressionParser();
-    private String[] fields;
+
+    private String flatNumber;
+    private String blockNumber;
 
     @Override
     public void initialize(FlatNumberValidation constraintAnnotation) {
-        fields = constraintAnnotation.value();
+        this.flatNumber = constraintAnnotation.field();
+        this.blockNumber = constraintAnnotation.fieldMatch();
     }
 
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext context) {
-        String[] values = Stream.of(fields)
-                .map(field -> PARSER.parseExpression(field).getValue(value))
-                .toArray(String[]::new);
-        String blockNumber = values[0];
-        String flatNumber = values[1];
-        if(blockNumber == null){
-            String flatNumberPattern = "\\d{4}";
-            return flatNumber.matches(flatNumberPattern);
+
+        String flatNumber = (String)(new BeanWrapperImpl(value).getPropertyValue(this.flatNumber));
+        String blockNumber = (String)(new BeanWrapperImpl(value).getPropertyValue(this.blockNumber));
+
+        if(flatNumber == null) return false;
+
+        if(blockNumber != null){
+            String flatNumberPattern = "\\d{1,5}";
+            if(!flatNumber.matches(flatNumberPattern)){
+                this.displayAsFieldError(context);
+                return false;
+            }
         }
         else{
-            String blockNumberPatter = "^\\d{5}[a-z]{1}$";
-            return blockNumber.matches(blockNumberPatter);
+            String flatNumberPattern = "^\\d{1,5}[a-z]?$";
+            if(!flatNumber.matches(flatNumberPattern)){
+                this.displayAsFieldError(context);
+                return false;
+            }
         }
+        return true;
+    }
+
+    private void displayAsFieldError(ConstraintValidatorContext context){
+        context.disableDefaultConstraintViolation();
+        context.buildConstraintViolationWithTemplate("Invalid flat number format").addPropertyNode("flatNumber").addConstraintViolation();
 
     }
 }
