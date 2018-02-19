@@ -34,7 +34,7 @@ public class PersonReqDTO {
     @Pattern(regexp = "^(male|female|other)",message = "You can chose one of three kind of gender: male, female or other")
     String gender;
 
-    @Past(message = "You can not chose future date as birth date of person")
+    @Past(message = "You can not chose future date as birth date of person or have more than 200 years old")
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonSerialize(using = LocalDateSerializer.class)
     LocalDate birthDate;
