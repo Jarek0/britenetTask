@@ -11,8 +11,10 @@ import com.britenet.contacts.task.domain.contact.Contact;
 import com.britenet.contacts.task.domain.contact.subClasses.Address;
 import com.britenet.contacts.task.domain.contact.subClasses.EmailAddress;
 import com.britenet.contacts.task.domain.contact.subClasses.PhoneNumber;
+import com.britenet.contacts.task.domain.contact.subClasses.enums.Province;
 import com.britenet.contacts.task.domain.person.Person;
 import com.britenet.contacts.task.exceptions.notFound.ObjectNotFoundException;
+import com.britenet.contacts.task.repositories.contact.ContactRepository;
 import com.britenet.contacts.task.repositories.person.PersonRepository;
 import com.britenet.contacts.task.services.contact.ContactService;
 import org.junit.Before;
@@ -50,6 +52,9 @@ public class ContactServiceTest {
     private PersonRepository personRepository;
 
     @Autowired
+    private ContactRepository contactRepository;
+
+    @Autowired
     private ContactService contactService;
 
     @Rule
@@ -58,6 +63,7 @@ public class ContactServiceTest {
     @Before
     public void clearDataBaseBeforeEachTest(){
         personRepository.deleteAll();
+        contactRepository.deleteAll();
     }
 
     @Test
@@ -195,7 +201,7 @@ public class ContactServiceTest {
     }
 
     @Test
-    public void whenIUpdateSavedAddress_thenIGetContactResDTOWithUpdatedData(){
+    public void whenIUpdateSavedAddress_thenContactIsSavedAndIGetContactResDTO(){
         //given
         Address addressToUpdate = (Address) createTestAddress();
         Person jarek = createJarek();
@@ -223,11 +229,21 @@ public class ContactServiceTest {
                 .person(expectedPersonResDTO)
                 .value("ul. 3 Maja 3 22-410 Zamość woj. lubelskie")
                 .build();
+
         assertEquals(expectedContactResDTO,contactWithPersonResDTO);
+
+        Address expectedAddress = Address.builder()
+                .town("Zamość")
+                .zipCode("22-410")
+                .street("ul. 3 Maja")
+                .province(Province.lubelskie)
+                .flatNumber("3")
+                .build();
+        assertTrue(contactRepository.findAll().contains(expectedAddress));
     }
 
     @Test
-    public void whenIUpdateSavedEmailAddress_thenIGetContactResDTOWithUpdatedData(){
+    public void whenIUpdateSavedEmailAddress_thenContactIsSavedAndIGetContactResDTO(){
         //given
         EmailAddress emailAddress = (EmailAddress) createTestEmailAddress();
         Person jarek = createJarek();
@@ -249,6 +265,9 @@ public class ContactServiceTest {
                 .value("jarek0@o2.pl")
                 .build();
         assertEquals(expectedContactResDTO,contactWithPersonResDTO);
+
+        EmailAddress expectedEmailAddress = new EmailAddress("jarek0@o2.pl");
+        assertTrue(contactRepository.findAll().contains(expectedEmailAddress));
     }
 
     @Test
@@ -274,6 +293,9 @@ public class ContactServiceTest {
                 .value("111111111")
                 .build();
         assertEquals(expectedContactResDTO,contactWithPersonResDTO);
+
+        PhoneNumber expectedPhoneNumber = new PhoneNumber("111111111");
+        assertTrue(contactRepository.findAll().contains(expectedPhoneNumber));
     }
 
     @Test
