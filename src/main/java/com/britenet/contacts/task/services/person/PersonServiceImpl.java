@@ -15,6 +15,7 @@ import com.britenet.contacts.task.exceptions.notFound.ObjectNotFoundException;
 import com.britenet.contacts.task.mappers.contact.ContactMapper;
 import com.britenet.contacts.task.mappers.page.PageMapper;
 import com.britenet.contacts.task.mappers.person.PersonMapper;
+import com.britenet.contacts.task.repositories.contact.ContactRepository;
 import com.britenet.contacts.task.repositories.person.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -30,6 +31,7 @@ import java.util.stream.Collectors;
 public class PersonServiceImpl implements PersonService{
 
     private final PersonRepository personRepository;
+    private final ContactRepository contactRepository;
 
     private final PersonMapper personMapper;
     private final PageMapper pageMapper;
@@ -37,9 +39,11 @@ public class PersonServiceImpl implements PersonService{
 
     @Autowired
     public PersonServiceImpl(PersonRepository personRepository,
+                             ContactRepository contactRepository,
                              PersonMapper personMapper,
                              PageMapper pageMapper, ContactMapper contactMapper) {
         this.personRepository = personRepository;
+        this.contactRepository = contactRepository;
         this.personMapper = personMapper;
         this.pageMapper = pageMapper;
         this.contactMapper = contactMapper;
@@ -157,6 +161,8 @@ public class PersonServiceImpl implements PersonService{
         personToUpdate.setBirthDate(personReqDTO.getBirthDate());
         personToUpdate.setPesel(personReqDTO.getPesel());
 
+        personRepository.save(personToUpdate);
+
         return personMapper.mapToResDTO(personToUpdate);
     }
 
@@ -176,7 +182,7 @@ public class PersonServiceImpl implements PersonService{
                 .orElseThrow(() -> new ObjectNotFoundException(Person.class));
         person.addContact(contactToAdd);
 
-        personRepository.save(person);
+        contactRepository.save(contactToAdd);
 
         return personMapper.mapToResWithContactsDTO(person);
     }

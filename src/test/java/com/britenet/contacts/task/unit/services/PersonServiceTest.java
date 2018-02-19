@@ -6,6 +6,7 @@ import com.britenet.contacts.task.DTO.contact.request.create.PhoneNumberReqDTO;
 import com.britenet.contacts.task.DTO.person.request.PersonReqDTO;
 import com.britenet.contacts.task.DTO.person.request.UpdatePersonReqDTO;
 import com.britenet.contacts.task.DTO.person.response.PersonResDTO;
+import com.britenet.contacts.task.domain.contact.Contact;
 import com.britenet.contacts.task.domain.contact.subClasses.Address;
 import com.britenet.contacts.task.domain.contact.subClasses.EmailAddress;
 import com.britenet.contacts.task.domain.contact.subClasses.PhoneNumber;
@@ -15,6 +16,7 @@ import com.britenet.contacts.task.exceptions.notFound.ObjectNotFoundException;
 import com.britenet.contacts.task.mappers.contact.ContactMapper;
 import com.britenet.contacts.task.mappers.page.PageMapper;
 import com.britenet.contacts.task.mappers.person.PersonMapper;
+import com.britenet.contacts.task.repositories.contact.ContactRepository;
 import com.britenet.contacts.task.repositories.person.PersonRepository;
 import com.britenet.contacts.task.services.person.PersonService;
 import com.britenet.contacts.task.services.person.PersonServiceImpl;
@@ -58,6 +60,8 @@ public class PersonServiceTest {
     @Mock
     private PersonRepository personRepository;
     @Mock
+    private ContactRepository contactRepository;
+    @Mock
     private PersonMapper personMapper;
     @Mock
     private PageMapper pageMapper;
@@ -70,11 +74,14 @@ public class PersonServiceTest {
     public ExpectedException expectedException = ExpectedException.none();
     @Captor
     private ArgumentCaptor<Person> personArgumentCaptor;
+    @Captor
+    private ArgumentCaptor<Contact> contactArgumentCaptor;
 
     @Before
     public void init(){
         personService = new PersonServiceImpl(
                 personRepository,
+                contactRepository,
                 personMapper,
                 pageMapper,
                 contactMapper
@@ -119,11 +126,11 @@ public class PersonServiceTest {
         //then
         verify(contactMapper,times(1)).fromReqDTO(addressReqDTO);
         verify(personRepository,times(1)).findByIdWithContacts(1L);
-        verify(personRepository,times(1)).save(personArgumentCaptor.capture());
+        verify(contactRepository,times(1)).save(contactArgumentCaptor.capture());
         verify(personMapper,times(1)).mapToResWithContactsDTO(jarek);
 
-        Person capturedPerson = personArgumentCaptor.getValue();
-        assertEquals(capturedPerson,jarek);
+        Contact capturedContact = contactArgumentCaptor.getValue();
+        assertEquals(capturedContact,address);
         assertTrue(jarek.getContacts().contains(address));
     }
 
@@ -143,11 +150,11 @@ public class PersonServiceTest {
         //then
         verify(contactMapper,times(1)).fromReqDTO(emailAddressReqDTO);
         verify(personRepository,times(1)).findByIdWithContacts(1L);
-        verify(personRepository,times(1)).save(personArgumentCaptor.capture());
+        verify(contactRepository,times(1)).save(contactArgumentCaptor.capture());
         verify(personMapper,times(1)).mapToResWithContactsDTO(jarek);
 
-        Person capturedPerson = personArgumentCaptor.getValue();
-        assertEquals(capturedPerson,jarek);
+        Contact capturedContact = contactArgumentCaptor.getValue();
+        assertEquals(capturedContact,emailAddress);
         assertTrue(jarek.getContacts().contains(emailAddress));
     }
 
@@ -167,11 +174,11 @@ public class PersonServiceTest {
         //then
         verify(contactMapper,times(1)).fromReqDTO(phoneNumberReqDTO);
         verify(personRepository,times(1)).findByIdWithContacts(1L);
-        verify(personRepository,times(1)).save(personArgumentCaptor.capture());
+        verify(contactRepository,times(1)).save(contactArgumentCaptor.capture());
         verify(personMapper,times(1)).mapToResWithContactsDTO(jarek);
 
-        Person capturedPerson = personArgumentCaptor.getValue();
-        assertEquals(capturedPerson,jarek);
+        Contact capturedContact = contactArgumentCaptor.getValue();
+        assertEquals(capturedContact,phoneNumber);
         assertTrue(jarek.getContacts().contains(phoneNumber));
     }
 
@@ -366,6 +373,7 @@ public class PersonServiceTest {
 
         //then
         verify(personRepository,times(1)).findById(1L);
+        verify(personRepository,times(1)).save(any(Person.class));
         verify(personMapper,times(1)).mapToResDTO(personArgumentCaptor.capture());
 
         Person updatedPerson = personArgumentCaptor.getValue();

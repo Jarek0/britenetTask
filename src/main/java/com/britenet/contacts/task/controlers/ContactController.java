@@ -44,7 +44,7 @@ public class ContactController {
         binder.addValidators(phoneNumberValidator);
     }
 
-    @GetMapping
+    @GetMapping("/contacts")
     public ResponseEntity<List<ContactWithPersonResDTO>> readAllContacts(){
         return new ResponseEntity<>(contactService.readAllContacts(), HttpStatus.OK);
     }
@@ -82,7 +82,7 @@ public class ContactController {
         contactService.deleteContact(contactId);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/contacts")
     public void deleteAllContacts(){
         contactService.deleteAllContacts();
     }

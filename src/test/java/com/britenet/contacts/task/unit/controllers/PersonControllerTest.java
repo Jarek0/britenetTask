@@ -10,6 +10,8 @@ import com.britenet.contacts.task.DTO.person.request.UpdatePersonReqDTO;
 import com.britenet.contacts.task.DTO.person.response.PersonResDTO;
 import com.britenet.contacts.task.DTO.person.response.PersonWithContactsResDTO;
 import com.britenet.contacts.task.controlers.PersonController;
+import com.britenet.contacts.task.domain.person.Person;
+import com.britenet.contacts.task.exceptions.notFound.ObjectNotFoundException;
 import com.britenet.contacts.task.services.person.PersonService;
 import com.britenet.contacts.task.validators.contact.EmailAddressValidator;
 import com.britenet.contacts.task.validators.contact.PhoneNumberValidator;
@@ -557,6 +559,20 @@ public class PersonControllerTest {
         verify(personService,times(1))
                 .readPersonWithContacts(1L);
         verifyNoMoreInteractions(personService);
+    }
+
+    @Test
+    public void whenIReadPersonByIdWhichNotExist_ThenIGetError() throws Exception{
+        //given
+        when(personService.readPerson(1L)).thenThrow(new ObjectNotFoundException(Person.class));
+
+        //when
+        mvc.perform(get("/api/persons/1"))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$",is("Person not found")));
+
+        verify(personService,times(1))
+                .readPerson(1L);
     }
 
     @Test
