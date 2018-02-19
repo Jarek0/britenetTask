@@ -1,7 +1,7 @@
 package com.britenet.contacts.task.validators.person;
 
 import com.britenet.contacts.task.DTO.person.request.PersonReqDTO;
-import com.britenet.contacts.task.repository.person.PersonRepository;
+import com.britenet.contacts.task.repositories.person.PersonRepository;
 import com.google.common.base.Preconditions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -21,7 +21,7 @@ public class PersonReqDTOValidatorImpl implements Validator{
 
     @Override
     public boolean supports(Class<?> aClass) {
-        return PersonReqDTO.class.equals(aClass);
+        return PersonReqDTO.class.isAssignableFrom(aClass);
     }
 
     @Override
@@ -29,10 +29,10 @@ public class PersonReqDTOValidatorImpl implements Validator{
         Preconditions.checkNotNull(o);
         PersonReqDTO personReqDTO = (PersonReqDTO) o;
 
-        boolean personWithThisPeselExist = personRepository.findByPesel(personReqDTO.getPesel()).orElse(null) != null;
+        boolean peselAlreadyExist = personRepository.findByPesel(personReqDTO.getPesel()).orElse(null) != null;
 
-        if(personWithThisPeselExist){
-            errors.rejectValue("pesel","","validation.phoneNumber.value.exist");
+        if(peselAlreadyExist){
+            errors.rejectValue("","","Person with this pesel already exist");
         }
 
     }

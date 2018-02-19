@@ -1,9 +1,8 @@
 package com.britenet.contacts.task.validators.person;
 
-import com.britenet.contacts.task.DTO.person.request.PersonReqDTO;
 import com.britenet.contacts.task.DTO.person.request.UpdatePersonReqDTO;
 import com.britenet.contacts.task.domain.person.Person;
-import com.britenet.contacts.task.repository.person.PersonRepository;
+import com.britenet.contacts.task.repositories.person.PersonRepository;
 import com.google.common.base.Preconditions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -22,7 +21,7 @@ public class UpdatePersonReqDTOValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> aClass) {
-        return UpdatePersonReqDTO.class.equals(aClass);
+        return UpdatePersonReqDTO.class.isAssignableFrom(aClass);
     }
 
     @Override
@@ -30,10 +29,10 @@ public class UpdatePersonReqDTOValidator implements Validator {
         Preconditions.checkNotNull(o);
         UpdatePersonReqDTO personReqDTO = (UpdatePersonReqDTO) o;
 
-        Person personWithThisPesel = personRepository.findByPesel(personReqDTO.getPesel()).orElse(null);
+        Person peselAlreadyExist = personRepository.findByPesel(personReqDTO.getPesel()).orElse(null);
 
-        if(personWithThisPesel!=null && !personWithThisPesel.getId().equals(personReqDTO.getId())){
-            errors.rejectValue("pesel","","validation.person.pesel.exist");
+        if(peselAlreadyExist !=null && !peselAlreadyExist.getId().equals(personReqDTO.getId())){
+            errors.rejectValue("","","Person with this pesel already exist");
         }
     }
 }

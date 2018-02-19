@@ -1,7 +1,7 @@
 package com.britenet.contacts.task.validators.contact;
 
-import com.britenet.contacts.task.DTO.contact.request.EmailAddressReqDTO;
-import com.britenet.contacts.task.repository.contact.EmailAddressRepository;
+import com.britenet.contacts.task.DTO.contact.request.create.EmailAddressReqDTO;
+import com.britenet.contacts.task.repositories.contact.EmailAddressRepository;
 import com.google.common.base.Preconditions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,7 +20,7 @@ public class EmailAddressValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> aClass) {
-        return EmailAddressReqDTO.class.equals(aClass);
+        return EmailAddressReqDTO.class.isAssignableFrom(aClass);
     }
 
     @Override
@@ -28,10 +28,10 @@ public class EmailAddressValidator implements Validator {
         Preconditions.checkNotNull(o);
         EmailAddressReqDTO emailAddressReqDTO = (EmailAddressReqDTO) o;
 
-        boolean personWithThisPeselExist = emailAddressRepository.findByValue(emailAddressReqDTO.getValue()).orElse(null) != null;
+        boolean emailAlreadyExist = emailAddressRepository.findByValue(emailAddressReqDTO.getValue()).orElse(null) != null;
 
-        if(personWithThisPeselExist){
-            errors.rejectValue("pesel","","validation.emailAddress.value.exist");
+        if(emailAlreadyExist){
+            errors.rejectValue("","","This e-mail address already exist");
         }
 
     }

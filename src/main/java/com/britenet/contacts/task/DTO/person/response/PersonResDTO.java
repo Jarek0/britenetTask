@@ -5,7 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 @Builder
-@EqualsAndHashCode
+@EqualsAndHashCode(exclude = "id")
 @Getter
 public class PersonResDTO {
     protected long id;

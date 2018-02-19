@@ -2,10 +2,7 @@ package com.britenet.contacts.task.validators.contact;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
@@ -14,9 +11,16 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Documented
 @Constraint(validatedBy = FlatNumberValidator.class)
 public @interface FlatNumberValidation {
-    String[] value();
+    String message();
+    String field();
+    String fieldMatch();
 
-    String message() default "{validation.address.flatNumber.pattern}";
+    @Target({ ElementType.TYPE })
+    @Retention(RetentionPolicy.RUNTIME)
+    @interface List {
+        FlatNumberValidation[] value();
+    }
+
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

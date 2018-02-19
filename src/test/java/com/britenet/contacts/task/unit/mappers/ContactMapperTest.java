@@ -1,8 +1,8 @@
 package com.britenet.contacts.task.unit.mappers;
 
-import com.britenet.contacts.task.DTO.contact.request.AddressReqDTO;
-import com.britenet.contacts.task.DTO.contact.request.EmailAddressReqDTO;
-import com.britenet.contacts.task.DTO.contact.request.PhoneNumberReqDTO;
+import com.britenet.contacts.task.DTO.contact.request.create.AddressReqDTO;
+import com.britenet.contacts.task.DTO.contact.request.create.EmailAddressReqDTO;
+import com.britenet.contacts.task.DTO.contact.request.create.PhoneNumberReqDTO;
 import com.britenet.contacts.task.DTO.contact.response.ContactResDTO;
 import com.britenet.contacts.task.DTO.contact.response.ContactWithPersonResDTO;
 import com.britenet.contacts.task.DTO.person.response.PersonResDTO;
@@ -12,7 +12,6 @@ import com.britenet.contacts.task.domain.contact.subClasses.EmailAddress;
 import com.britenet.contacts.task.domain.contact.subClasses.PhoneNumber;
 import com.britenet.contacts.task.domain.contact.subClasses.enums.Province;
 import com.britenet.contacts.task.domain.person.Person;
-import com.britenet.contacts.task.domain.person.enums.Gender;
 import com.britenet.contacts.task.mappers.contact.ContactMapper;
 import com.britenet.contacts.task.mappers.contact.ContactMapperImpl;
 import com.britenet.contacts.task.mappers.person.PersonMapper;
@@ -22,18 +21,22 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 
+import static com.britenet.contacts.task.testObjectsFactories.TestAddressFactory.createTestAddress;
+import static com.britenet.contacts.task.testObjectsFactories.TestAddressFactory.createTestAddressReqDTO;
+import static com.britenet.contacts.task.testObjectsFactories.TestPersonFactory.createJarek;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 @SpringBootTest
@@ -55,14 +58,7 @@ public class ContactMapperTest {
     @Test
     public void whenIMapAddressReqDTO_IGetAddress(){
         //given
-        AddressReqDTO addressReqDTO = AddressReqDTO.builder()
-                .town("Lublin")
-                .zipCode("22-420")
-                .street("ul. Tomasza Zana")
-                .province("małopolskie")
-                .flatNumber("2")
-                .blockNumber("2a")
-                .build();
+        AddressReqDTO addressReqDTO = createTestAddressReqDTO();
 
         //when
         Address address = (Address) contactMapper.fromReqDTO(addressReqDTO);
@@ -112,14 +108,7 @@ public class ContactMapperTest {
     @Test
     public void whenIMapAddressToResDTO_IGetContactResDTO(){
         //given
-        Contact address = Address.builder()
-                .town("Lublin")
-                .zipCode("22-420")
-                .street("ul. Tomasza Zana")
-                .province(Province.getByName("małopolskie"))
-                .flatNumber("2")
-                .blockNumber("2a")
-                .build();
+        Contact address = createTestAddress();
         address.setId(1L);
 
         //when
@@ -135,38 +124,15 @@ public class ContactMapperTest {
     @Test
     public void whenIMapAddressToResDTO_IGetContactWithPersonResDTO(){
         //given
-        Contact address = Address.builder()
-                .town("Lublin")
-                .zipCode("22-420")
-                .street("ul. Tomasza Zana")
-                .province(Province.getByName("małopolskie"))
-                .flatNumber("2")
-                .blockNumber("2a")
-                .build();
+        Contact address = createTestAddress();
         address.setId(1L);
 
-        Person person = Person.builder()
-                .name("Jarek")
-                .surname("Bielec")
-                .gender(Gender.MALE)
-                .birthDate(LocalDate.parse("2016-08-16"))
-                .pesel("99999999999")
-                .build();
+        Person person = createJarek();
         person.setId(1L);
 
         person.addContact(address);
 
-        Mockito.when(personMapper.mapToResDTO(person))
-                .thenReturn(
-                        PersonResDTO.builder()
-                        .id(1)
-                        .name("Jarek")
-                        .surname("Bielec")
-                        .gender("male")
-                        .birthDate("2016-08-16")
-                        .pesel("99999999999")
-                        .build()
-                );
+        when(personMapper.mapToResDTO(person)).thenReturn(any(PersonResDTO.class));
 
         //when
         ContactWithPersonResDTO contactWithPersonResDTO = contactMapper.mapToResWithPerson(address);
@@ -178,7 +144,7 @@ public class ContactMapperTest {
         assertEquals(expectedValue,contactWithPersonResDTO.getValue());
 
         int countOfMappedPersons = 1;
-        Mockito.verify(personMapper,times(countOfMappedPersons)).mapToResDTO(captor.capture());
+        verify(personMapper,times(countOfMappedPersons)).mapToResDTO(captor.capture());
         List<Person> capturedPersons = captor.getAllValues();
         assertEquals(1,capturedPersons.size());
         assertTrue(capturedPersons.containsAll(Collections.singletonList(person)));

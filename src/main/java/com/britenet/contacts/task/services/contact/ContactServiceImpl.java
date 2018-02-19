@@ -1,8 +1,8 @@
 package com.britenet.contacts.task.services.contact;
 
-import com.britenet.contacts.task.DTO.contact.request.AddressReqDTO;
-import com.britenet.contacts.task.DTO.contact.request.EmailAddressReqDTO;
-import com.britenet.contacts.task.DTO.contact.request.PhoneNumberReqDTO;
+import com.britenet.contacts.task.DTO.contact.request.update.UpdateAddressReqDTO;
+import com.britenet.contacts.task.DTO.contact.request.update.UpdateEmailAddressReqDTO;
+import com.britenet.contacts.task.DTO.contact.request.update.UpdatePhoneNumberReqDTO;
 import com.britenet.contacts.task.DTO.contact.response.ContactWithPersonResDTO;
 import com.britenet.contacts.task.DTO.page.PageResDTO;
 import com.britenet.contacts.task.domain.contact.Contact;
@@ -13,10 +13,10 @@ import com.britenet.contacts.task.domain.contact.subClasses.enums.Province;
 import com.britenet.contacts.task.exceptions.notFound.ObjectNotFoundException;
 import com.britenet.contacts.task.mappers.contact.ContactMapper;
 import com.britenet.contacts.task.mappers.page.PageMapper;
-import com.britenet.contacts.task.repository.contact.AddressRepository;
-import com.britenet.contacts.task.repository.contact.ContactRepository;
-import com.britenet.contacts.task.repository.contact.EmailAddressRepository;
-import com.britenet.contacts.task.repository.contact.PhoneNumberRepository;
+import com.britenet.contacts.task.repositories.contact.AddressRepository;
+import com.britenet.contacts.task.repositories.contact.ContactRepository;
+import com.britenet.contacts.task.repositories.contact.EmailAddressRepository;
+import com.britenet.contacts.task.repositories.contact.PhoneNumberRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -51,18 +51,18 @@ public class ContactServiceImpl implements ContactService{
     }
 
     @Override
-    public List<ContactWithPersonResDTO> readAllContacts() {
-        List<Contact> contacts = contactRepository.findAllWithPersons();
-
-        return contacts.stream().map(contactMapper::mapToResWithPerson).collect(Collectors.toList());
-    }
-
-    @Override
     public ContactWithPersonResDTO readContact(long contactId) {
         Contact foundContact = contactRepository.findByIdWithPerson(contactId)
                 .orElseThrow(() -> new ObjectNotFoundException(Contact.class));
 
         return contactMapper.mapToResWithPerson(foundContact);
+    }
+
+    @Override
+    public List<ContactWithPersonResDTO> readAllContacts() {
+        List<Contact> contacts = contactRepository.findAllWithPersons();
+
+        return contacts.stream().map(contactMapper::mapToResWithPerson).collect(Collectors.toList());
     }
 
     @Override
@@ -74,9 +74,9 @@ public class ContactServiceImpl implements ContactService{
     }
 
     @Override
-    public ContactWithPersonResDTO updateContact(long contactId, AddressReqDTO contactReqDTO) {
+    public ContactWithPersonResDTO updateContact(UpdateAddressReqDTO contactReqDTO) {
 
-        Address contactToUpdate = addressRepository.findAddressByIdWithPerson(contactId)
+        Address contactToUpdate = addressRepository.findAddressByIdWithPerson(contactReqDTO.getId())
                 .orElseThrow(() -> new ObjectNotFoundException(Address.class));
 
         contactToUpdate.setTown(contactReqDTO.getTown());
@@ -86,27 +86,33 @@ public class ContactServiceImpl implements ContactService{
         contactToUpdate.setFlatNumber(contactReqDTO.getFlatNumber());
         contactToUpdate.setBlockNumber(contactReqDTO.getBlockNumber());
 
+        addressRepository.save(contactToUpdate);
+
         return contactMapper.mapToResWithPerson(contactToUpdate);
     }
 
     @Override
-    public ContactWithPersonResDTO updateContact(long contactId, EmailAddressReqDTO contactReqDTO) {
+    public ContactWithPersonResDTO updateContact(UpdateEmailAddressReqDTO contactReqDTO) {
 
-        EmailAddress contactToUpdate = emailAddressRepository.findEmailAddressByIdWithPerson(contactId)
+        EmailAddress contactToUpdate = emailAddressRepository.findEmailAddressByIdWithPerson(contactReqDTO.getId())
                 .orElseThrow(() -> new ObjectNotFoundException(EmailAddress.class));
 
         contactToUpdate.setValue(contactReqDTO.getValue());
 
+        emailAddressRepository.save(contactToUpdate);
+
         return contactMapper.mapToResWithPerson(contactToUpdate);
     }
 
     @Override
-    public ContactWithPersonResDTO updateContact(long contactId, PhoneNumberReqDTO contactReqDTO) {
+    public ContactWithPersonResDTO updateContact(UpdatePhoneNumberReqDTO contactReqDTO) {
 
-        PhoneNumber contactToUpdate = phoneNumberRepository.findPhoneNumberByIdWithPerson(contactId)
+        PhoneNumber contactToUpdate = phoneNumberRepository.findPhoneNumberByIdWithPerson(contactReqDTO.getId())
                 .orElseThrow(() -> new ObjectNotFoundException(PhoneNumber.class));
 
         contactToUpdate.setValue(contactReqDTO.getValue());
+
+        phoneNumberRepository.save(contactToUpdate);
 
         return contactMapper.mapToResWithPerson(contactToUpdate);
     }
