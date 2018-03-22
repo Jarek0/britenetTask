@@ -68,7 +68,7 @@ public class PersonTest {
     }
 
     @Test
-    public void whenICompareTwoPersonsWithTheSamePesel_thenTheyAreEqual(){
+    public void whenICompareTwoPersonsWithTheSamePesel_thenTheyAreEqual(){//EXAMPLE
         //given
         Person adam = createAdam();
 

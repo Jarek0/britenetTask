@@ -5,6 +5,7 @@ import com.britenet.contacts.task.DTO.contact.request.update.UpdatePhoneNumberRe
 import com.britenet.contacts.task.DTO.contact.request.update.UpdateEmailAddressReqDTO;
 import com.britenet.contacts.task.DTO.contact.response.ContactWithPersonResDTO;
 import com.britenet.contacts.task.DTO.page.PageResDTO;
+import com.britenet.contacts.task.aspect.LogExecutionTime;
 import com.britenet.contacts.task.services.contact.ContactService;
 import com.britenet.contacts.task.validators.contact.UpdateEmailAddressValidator;
 import com.britenet.contacts.task.validators.contact.UpdatePhoneNumberValidator;

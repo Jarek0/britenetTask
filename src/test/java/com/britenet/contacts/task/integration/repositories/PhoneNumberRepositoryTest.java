@@ -1,4 +1,4 @@
-package com.britenet.contacts.task.unit.repositories;
+package com.britenet.contacts.task.integration.repositories;
 
 import com.britenet.contacts.task.domain.contact.Contact;
 import com.britenet.contacts.task.domain.contact.subClasses.PhoneNumber;

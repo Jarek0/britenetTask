@@ -2,10 +2,10 @@ package com.britenet.contacts.task.DTO.contact.request.create;
 
 import com.britenet.contacts.task.validators.contact.FlatNumberValidation;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 @Data
@@ -19,22 +19,22 @@ import javax.validation.constraints.Pattern;
 )
 public class AddressReqDTO {
 
-    @NotBlank
+    @NotNull
     @Pattern(regexp = "^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]{1,39}$",
             message = "Town name must start with big latter and has from 2 to 40 letters")
     private String town;
 
-    @NotBlank
+    @NotNull
     @Pattern(regexp = "^\\d{2}-\\d{3}$",
             message = "Invalid zip message format")
     private String zipCode;
 
-    @NotBlank
+    @NotNull
     @Pattern(regexp = "^(ulica |ul. |Aleja |Al. |[A-ZĄĆĘŁŃÓŚŹŻ])[\\sA-ZĄĆĘŁŃÓŚŹŻ0-9a-ząćęłńóśźż. ]{1,79}$",
             message = "Invalid street name")
     private String street;
 
-    @NotBlank
+    @NotNull
     @Pattern(
             regexp = "^(lubelskie|dolnośląskie|małopolskie|śląskie|zachodiopomorskie|wielkopolskie|opolskie|łódzkie|podlaskie)",
             message = "Invalid province name"

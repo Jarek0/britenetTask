@@ -68,7 +68,7 @@ public class PersonControllerTest {
     private PhoneNumberValidator phoneNumberValidator;
 
     @Test
-    public void whenICreatePerson_thenIGetCreatedPerson() throws Exception {
+    public void whenICreatePerson_thenIGetCreatedPerson() throws Exception {//EXAMPLE
         //given
         PersonReqDTO personReqDTO = createJarekReqDTO();
         PersonResDTO personResDTO = createJarekResDTO();
@@ -94,7 +94,7 @@ public class PersonControllerTest {
     }
 
     @Test
-    public void whenITryToCreatePersonWithInvalidData_thenIGetError() throws Exception {
+    public void whenITryToCreatePersonWithInvalidData_thenIGetError() throws Exception {//EXAMPLE
         //given
         PersonReqDTO personReqDTO = PersonReqDTO.builder()
                 .name("jarek")
@@ -121,7 +121,7 @@ public class PersonControllerTest {
     }
 
     @Test
-    public void whenICreateAddressForPerson_thenIGetPersonWithCreatedContact() throws Exception {
+    public void whenICreateAddressForPerson_thenIGetPersonWithCreatedContact() throws Exception {//EXAMPLE
         //given
         AddressReqDTO jarekAddressReqDTO = createTestAddressReqDTO();
 
@@ -159,7 +159,7 @@ public class PersonControllerTest {
     }
 
     @Test
-    public void whenICreateAddressWithInvalidDataForPerson_thenIGetError() throws Exception {
+    public void whenICreateAddressWithInvalidDataForPerson_thenIGetError() throws Exception {//EXAMPLE
         //given
         AddressReqDTO invalidAddress = AddressReqDTO.builder()
                 .town("lublin")
@@ -299,7 +299,7 @@ public class PersonControllerTest {
     }
 
     @Test
-    public void whenIReadAllPersons_thenIGetListOfPersons() throws Exception {
+    public void whenIReadAllPersons_thenIGetListOfPersons() throws Exception {//EXAMPLE
         //given
         PersonResDTO jarek = createJarekResDTO();
         PersonResDTO adam = createAdamResDTO();

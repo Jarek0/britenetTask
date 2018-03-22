@@ -84,7 +84,7 @@ public class PersonServiceTest {
     }
 
     @Test
-    public void whenICreateAddressForPerson_thenThisContactIsSavedAndMappedToPersonWithContactResDTO(){
+    public void whenICreateAddressForPerson_thenThisContactIsSavedAndMappedToPersonWithContactResDTO(){//EXAMPLE
         //given
         Person jarek = createJarek();
         personRepository.save(jarek);
@@ -250,7 +250,7 @@ public class PersonServiceTest {
     }
 
     @Test
-    public void whenIUpdateSavedPerson_thenIGetPersonResDTOAndPersonIsUpdated(){
+    public void whenIUpdateSavedPerson_thenIGetPersonResDTOAndPersonIsUpdated(){//EXAMPLE
         //given
         Person jarek = createJarek();
         personRepository.save(jarek);

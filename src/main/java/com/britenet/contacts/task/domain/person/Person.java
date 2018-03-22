@@ -16,6 +16,7 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
+
 @Data
 @NoArgsConstructor
 public class Person implements Serializable{

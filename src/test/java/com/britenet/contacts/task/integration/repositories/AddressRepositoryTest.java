@@ -1,10 +1,10 @@
-package com.britenet.contacts.task.unit.repositories;
+package com.britenet.contacts.task.integration.repositories;
 
 import com.britenet.contacts.task.domain.contact.Contact;
-import com.britenet.contacts.task.domain.contact.subClasses.EmailAddress;
+import com.britenet.contacts.task.domain.contact.subClasses.Address;
 import com.britenet.contacts.task.domain.person.Person;
 import com.britenet.contacts.task.exceptions.notFound.ObjectNotFoundException;
-import com.britenet.contacts.task.repositories.contact.EmailAddressRepository;
+import com.britenet.contacts.task.repositories.contact.AddressRepository;
 import com.britenet.contacts.task.repositories.person.PersonRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,17 +16,17 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.persistence.EntityManager;
 
-import static com.britenet.contacts.task.testObjectsFactories.TestEmailAddressFactory.createTestEmailAddress;
+import static com.britenet.contacts.task.testObjectsFactories.TestAddressFactory.createTestAddress;
 import static com.britenet.contacts.task.testObjectsFactories.TestPersonFactory.createJarek;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @TestPropertySource(locations="classpath:application-test.properties")
 @DataJpaTest
-public class EmailAddressRepositoryTest {
+public class AddressRepositoryTest {
 
     @Autowired
-    EmailAddressRepository emailAddressRepository;
+    AddressRepository addressRepository;
 
     @Autowired
     PersonRepository personRepository;
@@ -36,17 +36,17 @@ public class EmailAddressRepositoryTest {
 
     @Before
     public void clearDataBaseBeforeEachTest(){
-        emailAddressRepository.deleteAll();
+        addressRepository.deleteAll();
     }
 
     @Test
-    public void whenISaveEmailAddressWithPerson_thenIFindThisEmailAddressWithThisPerson(){
+    public void whenISaveAddressWithPerson_thenIFindThisAddressWithThisPerson(){
         //given
         Person jarek = createJarek();
 
-        EmailAddress jarekEmailAddress = (EmailAddress) createTestEmailAddress();
+        Address jarekAddress = (Address) createTestAddress();
 
-        jarek.addContact(jarekEmailAddress);
+        jarek.addContact(jarekAddress);
 
         //when
         Person savedJarek = personRepository.save(jarek);
@@ -55,9 +55,9 @@ public class EmailAddressRepositoryTest {
         entityManager.clear();
 
         //then
-        Contact foundContact = emailAddressRepository.findEmailAddressByIdWithPerson(id)
+        Contact foundContact = addressRepository.findAddressByIdWithPerson(id)
                 .orElseThrow(() -> new ObjectNotFoundException(Contact.class,id));
-        assertEquals(jarekEmailAddress,foundContact);
+        assertEquals(jarekAddress,foundContact);
         //check n+1 problem
         assertEquals(jarek,foundContact.getPerson());
     }

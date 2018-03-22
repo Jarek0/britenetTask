@@ -8,6 +8,7 @@ import com.britenet.contacts.task.DTO.person.request.PersonReqDTO;
 import com.britenet.contacts.task.DTO.person.request.UpdatePersonReqDTO;
 import com.britenet.contacts.task.DTO.person.response.PersonResDTO;
 import com.britenet.contacts.task.DTO.person.response.PersonWithContactsResDTO;
+import com.britenet.contacts.task.aspect.LogExecutionTime;
 import com.britenet.contacts.task.services.person.PersonService;
 import com.britenet.contacts.task.validators.contact.EmailAddressValidator;
 import com.britenet.contacts.task.validators.contact.PhoneNumberValidator;
@@ -68,6 +69,7 @@ public class PersonController {
         binder.addValidators(phoneNumberValidator);
     }
 
+    @LogExecutionTime
     @PostMapping
     public ResponseEntity<PersonResDTO> createPerson(@RequestBody @Valid PersonReqDTO personReqDTO){
         return new ResponseEntity<>(personService.createPerson(personReqDTO), HttpStatus.OK);

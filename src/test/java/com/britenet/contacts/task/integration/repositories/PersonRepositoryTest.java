@@ -1,4 +1,4 @@
-package com.britenet.contacts.task.unit.repositories;
+package com.britenet.contacts.task.integration.repositories;
 
 import com.britenet.contacts.task.domain.contact.Contact;
 import com.britenet.contacts.task.domain.contact.subClasses.Address;
@@ -113,7 +113,7 @@ public class PersonRepositoryTest {
     }
 
     @Test
-    public void whenISavePersonWithContacts_thenIFindItByPeselWithContacts(){
+    public void whenISavePersonWithContacts_thenIFindItByPeselWithContacts(){//EXAMPLE
         //given
         Person jarek = createJarek();
 

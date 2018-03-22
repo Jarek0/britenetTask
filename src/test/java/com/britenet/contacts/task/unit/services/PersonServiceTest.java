@@ -111,7 +111,7 @@ public class PersonServiceTest {
     }
 
     @Test
-    public void whenICreateAddressForPerson_thenPersonIsSavedWithThisAddressAndMapped(){
+    public void whenICreateAddressForPerson_thenPersonIsSavedWithThisAddressAndMapped(){//EXAMPLE
         //given
         AddressReqDTO addressReqDTO = createTestAddressReqDTO();
         Address address = (Address) createTestAddress();
@@ -353,7 +353,7 @@ public class PersonServiceTest {
     }
 
     @Test
-    public void whenIUpdateSavedPerson_thenThisPersonIsUpdatedAndMapped(){
+    public void whenIUpdateSavedPerson_thenThisPersonIsUpdatedAndMapped(){//EXAMPLE
         //given
         Person jarek = createJarek();
 

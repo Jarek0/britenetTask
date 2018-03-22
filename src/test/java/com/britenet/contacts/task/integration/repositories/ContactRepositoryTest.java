@@ -1,15 +1,11 @@
-package com.britenet.contacts.task.unit.repositories;
+package com.britenet.contacts.task.integration.repositories;
 
 import com.britenet.contacts.task.domain.contact.Contact;
-import com.britenet.contacts.task.domain.contact.subClasses.Address;
-import com.britenet.contacts.task.domain.contact.subClasses.EmailAddress;
 import com.britenet.contacts.task.domain.contact.subClasses.PhoneNumber;
-import com.britenet.contacts.task.domain.contact.subClasses.enums.Province;
 import com.britenet.contacts.task.domain.person.Person;
 import com.britenet.contacts.task.exceptions.notFound.ObjectNotFoundException;
 import com.britenet.contacts.task.repositories.contact.ContactRepository;
 import com.britenet.contacts.task.repositories.person.PersonRepository;
-import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

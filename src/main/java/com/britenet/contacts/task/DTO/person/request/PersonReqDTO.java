@@ -8,8 +8,8 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.NotBlank;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 
@@ -17,20 +17,20 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class PersonReqDTO {
 
-    @NotBlank
+    @NotNull
     @Pattern(
             regexp = "^[A-ZĄĆĘŁŃÓŚŹŻ][a-zzżźćńółęąś]{2,29}$",
             message = "Name must start with big letter and have between 3 and 30 letters"
     )
     String name;
 
-    @NotBlank
+    @NotNull
     @Pattern(regexp = "^[A-ZĄĆĘŁŃÓŚŹŻ][a-zzżźćńółęąś]{2,29}$",
             message = "Surname must start with big letter and have between 3 and 30 letters"
     )
     String surname;
 
-    @NotBlank
+    @NotNull
     @Pattern(regexp = "^(male|female|other)",message = "You can chose one of three kind of gender: male, female or other")
     String gender;
 
@@ -39,7 +39,7 @@ public class PersonReqDTO {
     @JsonSerialize(using = LocalDateSerializer.class)
     LocalDate birthDate;
 
-    @NotBlank
+    @NotNull
     @Pattern(regexp = "^[0-9]{11}$",message = "Invalid pesel format")
     String pesel;
 
